@@ -29,6 +29,8 @@ const postSlice = createSlice({
       title: '',
       body: ''
     },
+    loading: false,
+    error: null
   },
   reducers: {
     setPostTitle(state, action) {
@@ -42,10 +44,29 @@ const postSlice = createSlice({
     builder
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.posts = action.payload;
+        state.loading = false;
+        state.posts = action.payload;
+      })
+      .addCase(fetchPosts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchPosts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(addPost.pending, (state) => {
+        state.loading = true;
+        state.error = null;
       })
       .addCase(addPost.fulfilled, (state, action) => {
-        state.posts.unshift({...action.payload, id: state.posts.length + 2})
-        state.post = { userId: 1, title: '', body: '' }; 
+        state.loading = false;
+        state.posts.unshift({...action.payload, id: state.posts.length + 1});
+        state.post = { userId: 1, title: '', body: '' };
+      })
+      .addCase(addPost.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       });
   }
 });
