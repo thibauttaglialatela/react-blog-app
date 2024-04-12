@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import { addPost, setPostTitle, setPostBody} from "../store/slice/postSlice"; 
 import { selectPost } from "../store/selector/selector";
+import './AddPost.css'
 
 const AddPost = () => {
    
     const dispatch = useDispatch();
     const post = useSelector(selectPost);
-    const { title, body, id } = post;
+    const { title, body } = post;
 
     const handleChangeTitle = (e) => {
         dispatch(setPostTitle(e.target.value));
@@ -29,7 +30,7 @@ const AddPost = () => {
         <form onSubmit={handleSubmit} className="add-post-form">
             <h1>Ajouter un post</h1>
             <div>
-            <label htmlFor="title">Title</label>
+            <label htmlFor="title"></label>
             <input onChange={handleChangeTitle} value={title} type="text" name="title" placeholder="titre" />
             </div>
             <div>

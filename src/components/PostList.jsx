@@ -8,6 +8,7 @@ const PostList = () => {
   const dispatch = useDispatch();
   const posts = useSelector(selectPosts); 
 
+
   useEffect(() => {
     dispatch(fetchPosts());
   }, []);

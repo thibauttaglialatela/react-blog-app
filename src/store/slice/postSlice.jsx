@@ -25,7 +25,6 @@ const postSlice = createSlice({
     posts: [],
     post: {
       userId: 1,
-      id: '',
       title: '',
       body: ''
     },
