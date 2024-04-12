@@ -1,36 +1,44 @@
-import {useState} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addPost, setPostTitle, setPostBody} from "../store/slice/postSlice"; 
+import { selectPost } from "../store/selector/selector";
 
 const AddPost = () => {
-    const [postTitle, setPostTitle] = useState("");
-    const [postContent, setPostContent] = useState("");
-    const handleChangePostTitle = (event) => {
-        setPostTitle(event.target.value);
-    }
+   
+    const dispatch = useDispatch();
+    const post = useSelector(selectPost);
+    const { title, body, id } = post;
 
-    const handleChangePostContent = (event) => {
-        setPostContent(event.target.value);
-    }
+    const handleChangeTitle = (e) => {
+        dispatch(setPostTitle(e.target.value));
+    };
 
-    const handleSubmit = (event) => {
-        event.prevent.default;
-    }
+    const handleChangeBody = (e) => {
+        dispatch(setPostBody(e.target.value));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (title.trim() === '' || body.trim() === '') {
+            return; 
+        }
+        dispatch(addPost({post})); 
+        console.log(post)
+    };
+
     return (
-        <>
-            <h1>Add a post</h1>
-            <form>
-                <div>
-                    <label htmlFor="title">Title</label>
-                    <input type="text" name="title" value={postTitle} id="title" onChange={handleChangePostTitle}/>
-                </div>
-                <div>
-                    <label htmlFor="post-content"></label>
-                    <textarea name="post-content" id="post-content" cols="30" rows="10" value={postContent}
-                              onChange={handleChangePostContent}></textarea>
-                </div>
-                <input type={"submit"} onSubmit={handleSubmit} value={"Add"}/>
-            </form>
-        </>
-    )
+        <form onSubmit={handleSubmit} className="add-post-form">
+            <h1>Ajouter un post</h1>
+            <div>
+            <label htmlFor="title">Title</label>
+            <input onChange={handleChangeTitle} value={title} type="text" name="title" placeholder="titre" />
+            </div>
+            <div>
+            <label htmlFor="post-content"></label>
+            <textarea onChange={handleChangeBody} value={body} name="post-content"  placeholder="contenu"></textarea>
+            <input type="submit" value="Ajouter un post"/>
+            </div>
+        </form>
+    );
 }
 
 export default AddPost;

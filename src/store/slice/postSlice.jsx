@@ -1,33 +1,42 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from "axios";
 
+export const fetchPosts = createAsyncThunk(
+  'posts/fetchPosts',
+  async () => {
+    const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+    console.log(response.data)
+    return response.data;
+  }
+);
 
-export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (data) => {
-  const response = await axios.get(`https://jsonplaceholder.typicode.com/posts`);
-  return response.data;
-});
-
-export const addPost = createAsyncThunk('posts/addPost', async (data) => {
-  const response = await axios.post(`https://jsonplaceholder.typicode.com/posts`, data);
-  return response.data;
-});
-
+export const addPost = createAsyncThunk(
+  'posts/addPost',
+  async (data) => {
+    const response = await axios.post('https://jsonplaceholder.typicode.com/posts', data);
+    console.log(response.data)
+    return response.data;
+  }
+);
 
 const postSlice = createSlice({
-  name: 'posts',
+  name: "posts",
   initialState: {
     posts: [],
     post: {
-      title: '',
-      id: "",
       userId: 1,
+      id: '',
+      title: '',
       body: ''
-  },
+    },
   },
   reducers: {
-    setPost(state, action) {
-      state.post = action.payload
-  }
+    setPostTitle(state, action) {
+      state.post.title = action.payload;
+    },
+    setPostBody(state, action) {
+      state.post.body = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -35,10 +44,11 @@ const postSlice = createSlice({
         state.posts = action.payload;
       })
       .addCase(addPost.fulfilled, (state, action) => {
-        state.posts.push(action.payload);
+        state.posts.unshift({...action.payload, id: state.posts.length + 2})
+        state.post = { userId: 1, title: '', body: '' }; 
       });
   }
 });
 
-export const { setPost } = postSlice.actions;
+export const { setPostTitle, setPostBody } = postSlice.actions;
 export default postSlice.reducer;
