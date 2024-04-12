@@ -40,3 +40,35 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Style de base pour l'article de commentaire */
+.comment-article {
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+/* Style pour l'en-tête du commentaire */
+.comment-header {
+  margin-bottom: 10px;
+}
+
+.comment-author {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.comment-email {
+  color: #666;
+}
+
+/* Style pour le corps du commentaire */
+.comment-body {
+  margin-bottom: 10px;
+}
+
+.comment-body p {
+  margin: 0;
+}
