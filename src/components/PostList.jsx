@@ -1,23 +1,31 @@
 import { Link, Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPosts } from "../store/slice/postSlice"
 
 const PostList = () => {
-  // Simulation données
-  const posts = [
-    { id: 1, title: "Post 1", body: "Contenu du post 1" },
-    { id: 2, title: "Post 2", body: "Contenu du post 2" },
-  ];
+  const dispatch = useDispatch();
+  const posts = useSelector(state => state.posts.posts); 
+
+
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
 
   return (
     <>
       <h2>Liste des posts</h2>
-      {posts.map(post => (
-        <div key={post.id}>
-          <h3>{post.title}</h3>
-          <p>{post.body}</p>
-          <Link to={`/post/${post.id}`}>Voir le contenu</Link>
-          <Outlet/>
-        </div>
-      ))}
+      {posts.length > 0 ? (
+        posts.map(post => (
+          <div key={post.id}>
+            <h3>{post.title}</h3>
+            <Link to={`/post/${post.id}`}>Voir le contenu</Link>
+            <Outlet />
+          </div>
+        ))
+      ) : (
+        <p>Aucun post à afficher.</p>
+      )}
     </>
   )
 }

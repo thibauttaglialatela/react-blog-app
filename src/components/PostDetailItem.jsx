@@ -1,15 +1,23 @@
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const PostDetailItem = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
+  const post = useSelector(state =>
+    state.posts.posts.find(post => post.id.toString() === id)
+  );
 
+  if (!post) {
+    return <div>Post non trouvée</div>;
+  }
 
   return (
     <>
       <h2>Détail du Post</h2>
-      <p>Affichage des détails pour le post ID: {id}</p>
+      <h3>{post.title}</h3>
+      <p>{post.body}</p>
     </>
-  )
+  );
 }
 
 export default PostDetailItem;
