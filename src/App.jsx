@@ -4,6 +4,7 @@ import Navbar from '../src/components/Navbar'
 import Home from '../src/pages/Home'
 import PostDetailItem from '../src/components/PostDetailItem'
 import PostList from '../src/components/PostList'
+import AddPost from './pages/AddPost'
 
 function App() {
 
@@ -17,7 +18,7 @@ function App() {
                   <Route index element={<PostList />} />
                   <Route path="post/:id" element={<PostDetailItem />} />
                 </Route>
-                <Route path={'/add-post'}/>
+                <Route path={'/add-post'} element={<AddPost/>}/>
                 <Route path={'*'} element={<div>Oups cette page n'existe pas</div>} />
             </Routes>
 
