@@ -1,16 +1,17 @@
 import { Link, Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPosts } from "../store/slice/postSlice"
+import { fetchPosts } from "../store/slice/postSlice";
+import { selectPosts } from "../store/selector/selector"; 
 
 const PostList = () => {
   const dispatch = useDispatch();
-  const posts = useSelector(state => state.posts.posts); 
-
+  const posts = useSelector(selectPosts); 
 
   useEffect(() => {
     dispatch(fetchPosts());
-  }, [dispatch]);
+  }, []);
+  
 
   return (
     <>
@@ -27,7 +28,7 @@ const PostList = () => {
         <p>Aucun post à afficher.</p>
       )}
     </>
-  )
+  );
 }
 
 export default PostList;
